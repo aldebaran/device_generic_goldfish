@@ -74,3 +74,22 @@ service qemu-props /system/bin/qemu-props
 
 service goldfish-logcat /system/bin/logcat -Q
     oneshot
+
+service dhcpcd_eth1 /system/bin/dhcpcd -ABKL
+    class main
+    disabled
+    oneshot
+
+service iprenew_eth1 /system/bin/dhcpcd -n
+    disabled
+    oneshot
+
+service wpa_supplicant /system/bin/wpa_supplicant -ieth1 -Dwired -c/data/misc/wifi/wpa_supplicant.conf -e/data/misc/wifi/entropy.bin
+#   we will start as root and wpa_supplicant will switch to user wifi
+#   after setting up the capabilities required for WEXT
+#   user wifi
+#   group wifi inet keystore
+    class main
+    socket wpa_eth1 dgram 660 wifi wifi
+    disabled
+    oneshot
