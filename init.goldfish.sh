@@ -4,6 +4,9 @@
 ifconfig eth0 10.0.2.15 netmask 255.255.255.0 up
 route add default gw 10.0.2.2 dev eth0
 
+ifconfig eth1 up
+dhcpcd -d eth1
+
 # ro.kernel.android.qemud is normally set when we
 # want the RIL (radio interface layer) to talk to
 # the emulated modem through qemud.
